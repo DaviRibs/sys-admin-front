@@ -1,4 +1,5 @@
 import { Product } from "@/interfaces/Product"
+import { Badge } from "../Bagde"
 
 interface ProductCardProps {
   product: Product
@@ -13,6 +14,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105
         "
         />
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {product.isNew && <Badge>Novo</Badge>}
+          {product.discount && (
+            <Badge variant="destructive">{product.discount} %</Badge>
+          )}
+        </div>
       </div>
     </div>
   )

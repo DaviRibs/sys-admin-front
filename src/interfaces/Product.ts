@@ -1,12 +1,12 @@
 export interface Product {
   id: number
   name: string
-  prince: number
+  price: number
   originalPrice?: number
   image: string
   rating: number
   reviews: number
   category: string
-  IsNew?: boolean
+  isNew?: boolean
   discount?: number
 }
