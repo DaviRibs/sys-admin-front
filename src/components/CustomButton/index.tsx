@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils"
+
 type CustomButtonProps = {
   variant?: "primary" | "outline" | "ghost"
   type?: "submit" | "button" | "reset"
@@ -29,9 +31,12 @@ export default function CustomButton({
   }
   return (
     <button
-      type={type}
-      className={`${width} rounded-lg text-lg font-medium 
-        ${getStyles()} ${className}`}
+      className={cn(
+        width,
+        "rounded-lg text-lg font-medium cursor-pointer",
+        getStyles(),
+        className
+      )}
     >
       {children}
     </button>
