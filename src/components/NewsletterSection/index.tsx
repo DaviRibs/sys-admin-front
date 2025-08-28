@@ -1,3 +1,4 @@
+import CustomButton from "../CustomButton"
 import CustomInput from "../CustomInput"
 
 export default function NewSletterSection() {
@@ -12,6 +13,7 @@ export default function NewSletterSection() {
       </p>
       <div className=" flex flex-col gap-4 max-w-md mx-auto sm:flex-row">
         <CustomInput placeholder="Seu melhor email" type="email" />
+        <CustomButton className="w-[150px] text-sm">Inscreva-se!</CustomButton>
       </div>
     </section>
   )
