@@ -1,6 +1,8 @@
 import Breadcrumb from "@/components/Breadcrumb"
 import PageWrapper from "@/components/PageWrapper"
-import { GetProductMock } from "@/helpers/getProductMock"
+import ProductImages from "@/components/Productimagens"
+import ProductSkeleton from "@/components/Skeletons/ProductSkeleton"
+import { getProductMock } from "@/helpers/getProductMock"
 import { productsDetails } from "@/interfaces/ProductDetails"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -9,20 +11,39 @@ export default function Product() {
   const router = useRouter()
   const { id } = router.query
   const [product, setProduct] = useState<productsDetails>({} as productsDetails)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    function fetchProduct() {
-      const product = GetProductMock({ id: Number(id) })
-      if (product) {
-        setProduct(product)
+    async function fetchProduct() {
+      setLoading(true)
+      if (id) {
+        const product = await getProductMock({ id: Number(id) })
+
+        if (product) {
+          setProduct(product)
+        }
       }
+      // setTimeout(() => {
+      setLoading(false)
+      // }, 3000)
     }
     fetchProduct()
-  }, [])
+  }, [id])
 
   return (
     <PageWrapper>
-      <Breadcrumb items={[]} />
+      {loading ? (
+        <ProductSkeleton />
+      ) : (
+        <>
+          <Breadcrumb
+            items={[{ title: product.category }, { title: product.name }]}
+          />
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            <ProductImages images={product?.images} />
+          </div>
+        </>
+      )}
     </PageWrapper>
   )
 }

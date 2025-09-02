@@ -1,7 +1,7 @@
 import { productsDetailsMocks } from "@/mocks/productsDetails"
-interface GetProductMockProps {
+interface getProductMockProps {
   id: number | string
 }
-export function GetProductMock({ id }: GetProductMockProps) {
+export function getProductMock({ id }: getProductMockProps) {
   return productsDetailsMocks.find((product) => product.id === id)
 }
