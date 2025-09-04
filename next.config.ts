@@ -4,12 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   devIndicators: false,
-  imagens: {
+  images: {
     domains: ["images.unsplash.com"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unslash.com",
+        hostname: "images.unsplash.com",
         port: "",
         pathname: "/**",
       },

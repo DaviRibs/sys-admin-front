@@ -5,7 +5,7 @@ interface ProductImagesProps {
   images: string[]
 }
 
-export default function ProductImages({ images }: ProductImagesProps) {
+export default function ProductImages({ images = [] }: ProductImagesProps) {
   const [selectedImage, setSelectedImage] = useState("")
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
 
   return (
     <div className="space-y-4">
-      <div className="aspect-square overflow-hidden border bg-[#21252b]">
+      <div className="aspect-square overflow-hidden border bg-[#21252b] rounded-2xl border-[#343942] h-[660px]">
         <Image
           src={selectedImage}
           alt="Product Image"
@@ -29,7 +29,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
             <button
               key={index}
               onClick={() => setSelectedImage(image)}
-              className={`aspect-square w-20 overflow-hidden rounded-lg border ${
+              className={`aspect-square w-20 overflow-hidden rounded-lg border-[#343942] border ${
                 selectedImage === image ? "ring-2 ring-[#5593f7]" : ""
               }`}
             >

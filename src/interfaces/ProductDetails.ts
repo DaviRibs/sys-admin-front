@@ -1,4 +1,5 @@
 export interface productsDetails {
+  isNew: any
   id: number
   name: string
   price: number

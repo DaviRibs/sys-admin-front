@@ -1,6 +1,7 @@
 import Breadcrumb from "@/components/Breadcrumb"
 import PageWrapper from "@/components/PageWrapper"
 import ProductImages from "@/components/Productimagens"
+import ProductInfo from "@/components/ProductInfo"
 import ProductSkeleton from "@/components/Skeletons/ProductSkeleton"
 import { getProductMock } from "@/helpers/getProductMock"
 import { productsDetails } from "@/interfaces/ProductDetails"
@@ -41,6 +42,7 @@ export default function Product() {
           />
           <div className="grid lg:grid-cols-2 gap-8 mb-12">
             <ProductImages images={product?.images} />
+            <ProductInfo product={product} />
           </div>
         </>
       )}
