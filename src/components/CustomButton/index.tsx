@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils"
 
 type CustomButtonProps = {
-  variant?: "primary" | "outline" | "ghost"
+  variant?: "primary" | "outline" | "ghost" | "secondary"
   type?: "submit" | "button" | "reset"
   className?: string
   children: React.ReactNode
   width?: string
+  disabled?: boolean
+  onClick?: () => void
 }
 
 export default function CustomButton({
@@ -14,6 +16,8 @@ export default function CustomButton({
   className,
   children,
   width = "w-full",
+  disabled = false,
+  onClick,
 }: CustomButtonProps) {
   function getStyles() {
     switch (variant) {
@@ -25,12 +29,17 @@ export default function CustomButton({
                         justify-center gap-4 transition-all duration-300 ease-in-out cursor-pointer`
       case "ghost":
         return `bg-transparent text-[#F1F2F3] flex items-center justify-center`
+      case "secondary":
+        return `bg-[#21252b] text-[#F1F2F3] hover:bg-[#21252b]/80`
       default:
         return ""
     }
   }
   return (
     <button
+      disabled={disabled}
+      type={type}
+      onClick={onClick}
       className={cn(
         width,
         "rounded-lg text-lg font-medium cursor-pointer",
