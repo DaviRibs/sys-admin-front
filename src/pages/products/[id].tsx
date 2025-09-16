@@ -72,7 +72,28 @@ export default function Product() {
               </div>
             </TabsContent>
             <TabsContent value="specifications" className="mt-6">
-              <p>Aqui é Especificações</p>
+              <div className="rounded-lg border border-[#343942] bg-[#181b26] shadow-md">
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold mb-4">
+                    Especificações Técnicas
+                  </h3>
+                  <div className="space-y-3">
+                    {Object.entries(product.specifications).map(
+                      ([key, value]) => {
+                        return (
+                          <div
+                            key={key}
+                            className="flex justify-between py-2 border-b border-[#2c313a]/50"
+                          >
+                            <span className="font-medium">{key}</span>
+                            <span className="text-gray-400">{value}</span>
+                          </div>
+                        )
+                      }
+                    )}
+                  </div>
+                </div>
+              </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
               <p>Aqui é o reviews</p>

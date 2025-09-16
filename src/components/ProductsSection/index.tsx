@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react"
 import CustomButton from "../CustomButton"
 import { Product } from "@/interfaces/Product"
-import { productsMocks } from "@/mocks/products"
 import ProductCard from "../ProductCard"
+import instance from "@/services/api"
 
 export default function ProductsSection() {
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    function fetchProducts() {
-      setProducts(productsMocks)
+    async function fetchProducts() {
+      try {
+        const response = await instance.get("/products")
+        setProducts(response.data)
+      } catch (error) {
+        console.error(error)
+      }
     }
     fetchProducts()
   }, [])
@@ -27,7 +32,6 @@ export default function ProductsSection() {
         {products.map((product) => {
           return <ProductCard key={product.id} product={product} />
         })}
-        )
       </div>
     </section>
   )
