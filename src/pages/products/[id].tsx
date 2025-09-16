@@ -4,7 +4,9 @@ import ProductImages from "@/components/Productimagens"
 import ProductInfo from "@/components/ProductInfo"
 import ProductSkeleton from "@/components/Skeletons/ProductSkeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import CustomToast from "@/helpers/customToasty"
 import { getProductMock } from "@/helpers/getProductMock"
+import requestApi from "@/helpers/requestApi"
 import { productsDetails } from "@/interfaces/ProductDetails"
 
 import { useRouter } from "next/router"
@@ -19,16 +21,22 @@ export default function Product() {
   useEffect(() => {
     async function fetchProduct() {
       setLoading(true)
-      if (id) {
-        const product = await getProductMock({ id: Number(id) })
-
-        if (product) {
-          setProduct(product)
+      try {
+        if (id) {
+          const response = await requestApi({
+            url: `/products/${id}`,
+            method: "GET",
+          })
+          setProduct(response.data)
         }
+      } catch (error) {
+        console.error(error)
+        CustomToast.error({
+          message: "Erro ao buscar produto",
+        })
+      } finally {
+        setLoading(false)
       }
-      // setTimeout(() => {
-      setLoading(false)
-      // }, 3000)
     }
     fetchProduct()
   }, [id])
@@ -78,7 +86,7 @@ export default function Product() {
                     Especificações Técnicas
                   </h3>
                   <div className="space-y-3">
-                    {Object.entries(product.specifications).map(
+                    {Object.entries(product?.specifications || {}).map(
                       ([key, value]) => {
                         return (
                           <div

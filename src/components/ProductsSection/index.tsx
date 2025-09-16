@@ -3,6 +3,9 @@ import CustomButton from "../CustomButton"
 import { Product } from "@/interfaces/Product"
 import ProductCard from "../ProductCard"
 import instance from "@/services/api"
+import requestApi from "@/helpers/requestApi"
+import { toast } from "react-toastify"
+import CustomToast from "@/helpers/customToasty"
 
 export default function ProductsSection() {
   const [products, setProducts] = useState<Product[]>([])
@@ -10,10 +13,16 @@ export default function ProductsSection() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await instance.get("/products")
+        const response = await requestApi({
+          url: "/products",
+          method: "GET",
+        })
         setProducts(response.data)
       } catch (error) {
         console.error(error)
+        CustomToast.error({
+          message: "Erro ao buscar produto",
+        })
       }
     }
     fetchProducts()
