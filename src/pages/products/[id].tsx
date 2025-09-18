@@ -1,7 +1,9 @@
 import Breadcrumb from "@/components/Breadcrumb"
+import CustomButton from "@/components/CustomButton"
 import PageWrapper from "@/components/PageWrapper"
 import ProductImages from "@/components/Productimagens"
 import ProductInfo from "@/components/ProductInfo"
+import ProductReviews from "@/components/ProductReviews"
 import ProductSkeleton from "@/components/Skeletons/ProductSkeleton"
 import StarsRating from "@/components/StarsRating"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,6 +11,7 @@ import CustomToast from "@/helpers/customToasty"
 import { getProductMock } from "@/helpers/getProductMock"
 import requestApi from "@/helpers/requestApi"
 import { productsDetails } from "@/interfaces/ProductDetails"
+import Link from "next/link"
 
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -16,7 +19,7 @@ import { useEffect, useState } from "react"
 export default function Product() {
   const router = useRouter()
   const { id } = router.query
-  const [product, setProduct] = useState<productsDetails>({} as productsDetails)
+  const [product, setProduct] = useState<productsDetails | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -42,6 +45,22 @@ export default function Product() {
     fetchProduct()
   }, [id])
 
+  if (!product) {
+    return (
+      <PageWrapper>
+        <div className="flex flex-col items-center justify-center">
+          <h1 className=" flex flex-col text-2xl font-bold mb-4">
+            Produto não encontrado
+          </h1>
+          <Link href="/">
+            <CustomButton className="h-[45px] px-4">
+              Voltar para a home
+            </CustomButton>
+          </Link>
+        </div>
+      </PageWrapper>
+    )
+  }
   return (
     <PageWrapper>
       {loading ? (
@@ -117,7 +136,7 @@ export default function Product() {
                       size={16}
                     />
                   </div>
-                  //
+                  <ProductReviews id={product?.id} />
                 </div>
               </div>
             </TabsContent>

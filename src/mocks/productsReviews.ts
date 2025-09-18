@@ -1,4 +1,4 @@
-const productsReviewsMocks = [
+export const productsReviewsMocks = [
   {
     id: 1,
     reviews: [
