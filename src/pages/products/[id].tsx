@@ -3,6 +3,7 @@ import PageWrapper from "@/components/PageWrapper"
 import ProductImages from "@/components/Productimagens"
 import ProductInfo from "@/components/ProductInfo"
 import ProductSkeleton from "@/components/Skeletons/ProductSkeleton"
+import StarsRating from "@/components/StarsRating"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CustomToast from "@/helpers/customToasty"
 import { getProductMock } from "@/helpers/getProductMock"
@@ -104,7 +105,21 @@ export default function Product() {
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
-              <p>Aqui é o reviews</p>
+              <div className="rounded-lg border border-[#343942] bg-[#181b20] shadow-md">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-semibold">
+                      Avaliações dos clientes
+                    </h3>
+                    <StarsRating
+                      rating={product?.rating || 0}
+                      reviews={product?.reviews || 0}
+                      size={16}
+                    />
+                  </div>
+                  //
+                </div>
+              </div>
             </TabsContent>
           </Tabs>
         </>
