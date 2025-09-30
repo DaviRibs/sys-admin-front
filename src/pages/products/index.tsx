@@ -1,6 +1,7 @@
 import AsideFilters from "@/components/AsideFilters"
 import CustomInput from "@/components/CustomInput"
 import { PageWrapper } from "@/components/PageWrapper"
+import ProductsList from "@/components/ProductsList"
 import {
   Select,
   SelectContent,
@@ -43,6 +44,7 @@ export default function Products() {
         </div>
         <div className="flex gap-8">
           <AsideFilters />
+          <ProductsList />
         </div>
       </PageWrapper.Content>
     </PageWrapper.Root>
