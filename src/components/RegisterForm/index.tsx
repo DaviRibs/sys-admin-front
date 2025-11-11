@@ -5,8 +5,15 @@ import { GoLock } from "react-icons/go"
 import CustomButton from "../CustomButton"
 import { FaChrome } from "react-icons/fa"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function RegisterForm() {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+
+  async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+  }
   return (
     <div
       className="w-full max-w-md mx-auto bg-gradient-to-br
@@ -19,7 +26,7 @@ export default function RegisterForm() {
           </h2>
           <p>Preencha os dados para criar sua conta</p>
         </div>
-        <form onSubmit={() => {}} className="space-y-6">
+        <form onSubmit={handleRegister} className="space-y-6">
           <CustomInput
             label="Nome completo"
             type="text"
