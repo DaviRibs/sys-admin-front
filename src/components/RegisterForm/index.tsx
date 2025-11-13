@@ -6,13 +6,59 @@ import CustomButton from "../CustomButton"
 import { FaChrome } from "react-icons/fa"
 import Link from "next/link"
 import { useState } from "react"
+import CustomToast from "@/helpers/customToasty"
+import requestApi from "@/helpers/requestApi"
+import { useRouter } from "next/navigation"
 
 export default function RegisterForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  const router = useRouter()
 
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (!name || !email || !password || !confirmPassword) {
+      CustomToast.error({
+        message: "Preencha todos os campos",
+      })
+      return
+    }
+    if (password !== confirmPassword) {
+      CustomToast.error({
+        message: "As senhas não coincidem",
+      })
+      return
+    }
+    if (password.length < 8) {
+      CustomToast.error({
+        message: "As senhas deve ter no minimo 8 caracteres",
+      })
+      return
+    }
+    try {
+      await requestApi({
+        url: "/users",
+        method: "POST",
+        data: {
+          name,
+          email,
+          password,
+          role: "user",
+        },
+      })
+      CustomToast.sucess({
+        message: "Conta criada com sucesso",
+      })
+      router.push("/login")
+    } catch (error) {
+      console.error(error)
+      CustomToast.error({
+        message: "Erro ao criar conta",
+      })
+    }
   }
   return (
     <div
@@ -30,6 +76,8 @@ export default function RegisterForm() {
           <CustomInput
             label="Nome completo"
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Seu nome completo"
             icon={<FiUser />}
             required={true}
@@ -37,6 +85,8 @@ export default function RegisterForm() {
           <CustomInput
             label="Email"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="seu@email.com"
             icon={<CiMail />}
             required={true}
@@ -44,6 +94,8 @@ export default function RegisterForm() {
           <CustomInput
             label="Senha"
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••"
             icon={<GoLock />}
             required={true}
@@ -51,6 +103,8 @@ export default function RegisterForm() {
           <CustomInput
             label="Confirme Senha"
             type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••"
             icon={<GoLock />}
             required={true}

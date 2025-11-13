@@ -8,6 +8,8 @@ interface CustomInputProps {
   placeholder?: string
   required?: boolean
   icon?: React.ReactNode
+  value?: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 export default function CustomInput({
   label,
@@ -15,6 +17,8 @@ export default function CustomInput({
   placeholder,
   required,
   icon,
+  value,
+  onChange,
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false)
   function handleShowPassword() {
@@ -38,6 +42,8 @@ export default function CustomInput({
           id={type}
           placeholder={placeholder}
           required={required}
+          value={value}
+          onChange={onChange}
           className={` bg-[#21252b80] 
             ${label && "mt-2"}
             ${
