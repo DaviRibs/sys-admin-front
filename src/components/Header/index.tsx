@@ -5,7 +5,24 @@ import { FiShoppingCart, FiUser } from "react-icons/fi"
 import Logo from "../../../public/logo.png"
 import Image from "next/image"
 import { FaRegBell } from "react-icons/fa"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 export default function Header() {
+  const [session, setSession] = useState<{ user: any; token: string } | null>(
+    null
+  )
+
+  const router = useRouter()
+  useEffect(() => {
+    const user = localStorage.getItem("user")
+    const token = localStorage.getItem("token")
+    if (user && token) {
+      setSession({
+        user: JSON.parse(user),
+        token: token,
+      })
+    }
+  }, [])
   return (
     <header className="sticky top-0 z-50 bg-[#111418]/95 backdrop-blur-sm w-full border-b">
       <div className="w-full flex h-16 items-center justify-between">
@@ -26,27 +43,39 @@ export default function Header() {
           />
         </div>
         <div className="flex items-center space-x-4 w-[33%] justify-end pr-4">
-          <CustomButton
-            variant="ghost"
-            width="w-10"
-            className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
-          >
-            <FiShoppingCart />
-          </CustomButton>
-          <CustomButton
-            variant="ghost"
-            width="w-10"
-            className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
-          >
-            <FaRegBell />
-          </CustomButton>
-          <CustomButton
-            variant="ghost"
-            width="w-10"
-            className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
-          >
-            <FiUser />
-          </CustomButton>
+          {session ? (
+            <>
+              <CustomButton
+                variant="ghost"
+                width="w-10"
+                className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
+              >
+                <FiShoppingCart />
+              </CustomButton>
+              <CustomButton
+                variant="ghost"
+                width="w-10"
+                className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
+              >
+                <FaRegBell />
+              </CustomButton>
+              <CustomButton
+                variant="ghost"
+                width="w-10"
+                className="h-10 hover:bg-[#5593f7] hover:text-[#111418]"
+              >
+                <FiUser />
+              </CustomButton>
+            </>
+          ) : (
+            <CustomButton
+              className="h-[35px]"
+              width="w-[120px]"
+              onClick={() => router.push("/login")}
+            >
+              Entrar
+            </CustomButton>
+          )}
         </div>
       </div>
     </header>
