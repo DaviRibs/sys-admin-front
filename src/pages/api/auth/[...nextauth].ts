@@ -1,14 +1,14 @@
-import instance from "@/services/api"
-import NextAuth, { NextAuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
+import instance from '@/services/api'
+import NextAuth, { NextAuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Senha", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Senha', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const response = await instance.post("/login", {
+          const response = await instance.post('/login', {
             email: credentials.email,
             password: credentials.password,
           })
@@ -41,10 +41,31 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  callbacks: {},
-  pages: {},
-  session: {},
-  secret: "",
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.token
+        token.id = user.id
+      }
+
+      return token
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string
+        session.accessToken = token.accessToken
+      }
+
+      return session
+    },
+  },
+  pages: {
+    signIn: '/login',
+  },
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
 export default NextAuth(authOptions)

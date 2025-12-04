@@ -1,44 +1,43 @@
-import Link from "next/link"
-import { CiMail } from "react-icons/ci"
-import { GoLock } from "react-icons/go"
-import { FiGithub } from "react-icons/fi"
-import { PiGoogleChromeLogo } from "react-icons/pi"
-import { useState } from "react"
-import CustomInput from "../CustomInput"
-import CustomToast from "@/helpers/customToasty"
-import requestApi from "@/helpers/requestApi"
-import { useRouter } from "next/navigation"
+import Link from 'next/link'
+import { CiMail } from 'react-icons/ci'
+import { GoLock } from 'react-icons/go'
+import { FiGithub } from 'react-icons/fi'
+import { PiGoogleChromeLogo } from 'react-icons/pi'
+import { useState } from 'react'
+import CustomInput from '../CustomInput'
+import CustomToast from '@/helpers/customToasty'
+import requestApi from '@/helpers/requestApi'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassWord] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassWord] = useState('')
   const router = useRouter()
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!email || !password) {
       CustomToast.error({
-        message: "Preencha todos os campos",
+        message: 'Preencha todos os campos',
       })
       return
     }
     try {
-      const response = await requestApi({
-        url: "/login",
-        method: "POST",
-        data: {
-          email,
-          password,
-        },
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
       })
-      //set local storage
-      localStorage.setItem("token", response.data.token)
-      localStorage.setItem("user", JSON.stringify(response.data.user))
-
+      if (result?.error) {
+        return CustomToast.error({
+          message: 'Erro ao fazer Login. Verifique suas credenciais',
+        })
+      }
       CustomToast.sucess({
-        message: "Login realizado com sucesso",
+        message: 'Login realizado com sucesso',
       })
-      router.push("/")
+      router.push('/')
     } catch (error: any) {
       console.error(error)
       CustomToast.error({

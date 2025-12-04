@@ -1,12 +1,11 @@
-import { IoSearch } from "react-icons/io5"
-import CustomInput from "../CustomInput"
-import CustomButton from "../CustomButton"
-import { FiLogOut, FiShoppingCart, FiUser } from "react-icons/fi"
-import Logo from "../../../public/logo.png"
-import Image from "next/image"
-import { FaRegBell } from "react-icons/fa"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { IoSearch } from 'react-icons/io5'
+import CustomInput from '../CustomInput'
+import CustomButton from '../CustomButton'
+import { FiLogOut, FiShoppingCart, FiUser } from 'react-icons/fi'
+import Logo from '../../../public/logo.png'
+import Image from 'next/image'
+import { FaRegBell } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +13,21 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
-import Link from "next/link"
-import useSession from "@/hooks/use-session"
+} from '../ui/dropdown-menu'
+import Link from 'next/link'
+import { signOut, useSession } from 'next-auth/react'
+
 export default function Header() {
   const router = useRouter()
 
-  const { session, handleSignOut } = useSession()
+  const { data: session } = useSession()
+
+  async function handleSignOut() {
+    await signOut({
+      redirect: true,
+      callbackUrl: '/login',
+    })
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-[#111418]/95 backdrop-blur-sm w-full border-b">
@@ -73,7 +80,7 @@ export default function Header() {
                       className="w-10 h-10 rounded-full bg-gradient-to-r from-[#5593f7] to-[#1d47d7] flex items-center justify-center 
                   text-white font-semibold"
                     >
-                      {session?.user?.name?.charAt(0).toUpperCase() || "U"}
+                      {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
                     </button>
                   )}
                 </DropdownMenuTrigger>
@@ -90,7 +97,7 @@ export default function Header() {
                         from-[#5593f7] to-[#1d47d7] flex items-center justify-center
                         text-white font-semibold"
                       >
-                        {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
+                        {session?.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
 
                       <div className="flex-1 min-w-0">
@@ -106,7 +113,7 @@ export default function Header() {
                   <DropdownMenuGroup className="py-1">
                     <DropdownMenuItem asChild>
                       <Link
-                        href={"/profile"}
+                        href={'/profile'}
                         className="flex items-center px-4 py-2 text-sm text-gray-300
                         hover:bg-[#2c313a] hover:text-white transition-colors cursor-pointer"
                       >
@@ -133,7 +140,7 @@ export default function Header() {
             <CustomButton
               className="h-[35px]"
               width="w-[120px]"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push('/login')}
             >
               Entrar
             </CustomButton>
