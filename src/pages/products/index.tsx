@@ -1,20 +1,21 @@
-import AsideFilters from "@/components/AsideFilters"
-import CustomInput from "@/components/CustomInput"
-import { PageWrapper } from "@/components/PageWrapper"
-import ProductsList from "@/components/ProductsList"
+import AsideFilters from '@/components/AsideFilters'
+import CustomInput from '@/components/CustomInput'
+import { PageWrapper } from '@/components/PageWrapper'
+import ProductsList from '@/components/ProductsList'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select'
+import { withAuth } from '@/lib/withAuth'
 
-import { IoSearch } from "react-icons/io5"
+import { IoSearch } from 'react-icons/io5'
 
 export default function Products() {
   return (
-    <PageWrapper.Root withAuth={true}>
+    <PageWrapper.Root>
       <PageWrapper.Header />
 
       <PageWrapper.Content
@@ -51,3 +52,5 @@ export default function Products() {
     </PageWrapper.Root>
   )
 }
+
+export const getServerSideProps = withAuth()

@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/contexts/AuthContext'
 import '@/styles/globals.css'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
@@ -10,13 +11,15 @@ export default function App({
   return (
     <>
       <SessionProvider session={session}>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          theme="colored"
-          pauseOnHover
-        />
-        <Component {...pageProps} />
+        <AuthProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            theme="colored"
+            pauseOnHover
+          />
+          <Component {...pageProps} />
+        </AuthProvider>
       </SessionProvider>
     </>
   )

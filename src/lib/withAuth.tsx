@@ -29,5 +29,22 @@ export function withAuth(gssp?: GetServerSideProps) {
       accessToken: session?.accessToken || null,
       expires: session?.expires || null,
     }
+    if (gssp) {
+      const gsspData = await gssp(context)
+      if ('props' in gsspData) {
+        return {
+          props: {
+            ...gsspData.props,
+            session: cleanedSession,
+          },
+        }
+      }
+      return gsspData
+    }
+    return {
+      props: {
+        session: cleanedSession,
+      },
+    }
   }
 }
