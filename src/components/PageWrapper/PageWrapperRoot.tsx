@@ -10,8 +10,9 @@ export default function PageWrapperRoot({
   sidebar = false,
 }: PageWrapperRootProps) {
   return (
-    <div className="min-h-screen bg-[#111418]">
+    <div className="min-h-screen bg-[#111418] flex">
       {sidebar && <AdminSidebar />}
+
       <div className="flex-1">{children}</div>
     </div>
   )
