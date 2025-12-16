@@ -19,7 +19,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  setSideBarValue: sidebarValueSlice,
+  sidebarValue: sidebarValueSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

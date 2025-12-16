@@ -10,7 +10,7 @@ import { RootState } from '@/redux/store'
 import { setSideBarValue } from '@/redux/reducers/sidebarValueSlice'
 
 export default function AdminSidebar() {
-  const open = useSelector((state: RootState) => state.setSideBarValue.open)
+  const open = useSelector((state: RootState) => state.sidebarValue.open)
   const { user } = useAuth()
   const dispatch = useDispatch()
   function handleSwitchSideBar() {
