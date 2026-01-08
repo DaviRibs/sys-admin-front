@@ -29,6 +29,10 @@ export default function LoginForm() {
         password,
         redirect: false,
       })
+      const error = JSON.parse(result?.error || '{}')
+      if (error?.code == '4002') {
+        router.push(`/verify-email?token=${error?.token}`)
+      }
       if (result?.error) {
         return CustomToast.error({
           message: 'Erro ao fazer Login. Verifique suas credenciais',
@@ -41,7 +45,9 @@ export default function LoginForm() {
     } catch (error: any) {
       console.error(error)
       CustomToast.error({
-        message: error.response.data.error,
+        message:
+          error?.response?.data.error ||
+          'ocorreu um erro inesperado. Tente novamente.',
       })
     }
   }
